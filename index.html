@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>African American Diaspora Organization</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: {
+                            DEFAULT: '#7A0016',
+                            dark: '#54000E',
+                            light: '#9E0B24',
+                            50: '#FDF2F4'
+                        },
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            dark: '#AA820A',
+                            light: '#E5C158',
+                            50: '#FCF8EC'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .font-heading {
+            font-family: 'Cinzel', serif;
+        }
+        .bg-pattern {
+            background-color: #7A0016;
+            background-image: radial-gradient(#D4AF37 0.75px, transparent 0.75px), radial-gradient(#D4AF37 0.75px, #7A0016 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0,15px 15px;
+            background-opacity: 0.1;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #7A0016;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gold text-burgundy-dark font-bold text-xs sm:text-sm py-2 px-4 text-center flex items-center justify-center gap-2">
+        <span class="bg-burgundy text-gold text-xs px-2 py-0.5 rounded-full font-sans uppercase tracking-wider">Live Event</span>
+        <span>Annual Diaspora Summit 2026 Registration Now Open!</span>
+        <button onclick="switchTab('events')" class="underline hover:text-black ml-2 text-xs">Get Tickets &rarr;</button>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="bg-burgundy text-white sticky top-0 z-40 shadow-xl border-b-2 border-gold/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Brand Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="w-12 h-12 rounded-full bg-gold flex items-center justify-center text-burgundy text-2xl font-bold shadow-md border-2 border-white">
+                        <i class="fa-solid font-heading">A</i>
+                    </div>
+                    <div>
+                        <span class="font-heading text-lg sm:text-xl font-bold tracking-wider text-gold block leading-tight">AAD Org</span>
+                        <span class="text-xs text-gray-200 uppercase tracking-widest block font-medium">African American Diaspora</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center gap-1 lg:gap-2 text-sm font-semibold">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-3 py-2 rounded-lg text-gold bg-burgundy-dark transition">Home</button>
+                    <button onclick="switchTab('membership')" id="nav-membership" class="nav-btn px-3 py-2 rounded-lg hover:text-gold transition">Membership</button>
+                    <button onclick="switchTab('events')" id="nav-events" class="nav-btn px-3 py-2 rounded-lg hover:text-gold transition">Events & Tickets</button>
+                    <button onclick="switchTab('shop')" id="nav-shop" class="nav-btn px-3 py-2 rounded-lg hover:text-gold transition">Shop Memorabilia</button>
+                    <button onclick="switchTab('stream')" id="nav-stream" class="nav-btn px-3 py-2 rounded-lg hover:text-gold transition flex items-center gap-1.5">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                        </span>
+                        Live Stream
+                    </button>
+                </nav>
+
+                <!-- Actions / Donation Button -->
+                <div class="hidden sm:flex items-center gap-3">
+                    <button onclick="openDonateModal()" class="bg-gold hover:bg-gold-light text-burgundy-dark px-5 py-2.5 rounded-full font-bold shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 flex items-center gap-2 border border-gold-light">
+                        <i class="fa-solid fa-heart text-burgundy"></i>
+                        Donate Now
+                    </button>
+                    <button onclick="openCartModal()" class="relative p-2.5 text-gray-200 hover:text-gold transition">
+                        <i class="fa-solid fa-shopping-bag text-xl"></i>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-gold text-burgundy text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-burgundy hidden">0</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center gap-2 md:hidden">
+                    <button onclick="openCartModal()" class="relative p-2 text-gray-200 hover:text-gold">
+                        <i class="fa-solid fa-shopping-bag text-lg"></i>
+                        <span id="cart-badge-mobile" class="absolute -top-1 -right-1 bg-gold text-burgundy text-xs font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="text-gray-200 hover:text-white p-2">
+                        <i class="fa-solid fa-bars text-2xl" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-burgundy-dark border-t border-gold/20 px-4 pt-3 pb-6 space-y-2">
+            <button onclick="switchTab('home')" class="block w-full text-left px-4 py-2.5 rounded-md font-medium text-white hover:bg-burgundy hover:text-gold">Home</button>
+            <button onclick="switchTab('membership')" class="block w-full text-left px-4 py-2.5 rounded-md font-medium text-white hover:bg-burgundy hover:text-gold">Membership</button>
+            <button onclick="switchTab('events')" class="block w-full text-left px-4 py-2.5 rounded-md font-medium text-white hover:bg-burgundy hover:text-gold">Events & Tickets</button>
+            <button onclick="switchTab('shop')" class="block w-full text-left px-4 py-2.5 rounded-md font-medium text-white hover:bg-burgundy hover:text-gold">Shop Memorabilia</button>
+            <button onclick="switchTab('stream')" class="block w-full text-left px-4 py-2.5 rounded-md font-medium text-white hover:bg-burgundy hover:text-gold">Live Streaming Hub</button>
+            <div class="pt-2">
+                <button onclick="openDonateModal()" class="w-full bg-gold text-burgundy-dark font-bold py-3 rounded-xl shadow-md text-center">
+                    Donate to AAD Org
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINERS -->
+    <main class="flex-grow">
+
+        <!-- ================= SECTION 1: HOME PAGE ================= -->
+        <section id="tab-home" class="tab-content">
+            <!-- Hero Banner -->
+            <div class="relative bg-burgundy text-white overflow-hidden">
+                <div class="absolute inset-0 opacity-20 bg-pattern"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                            <span class="inline-block bg-gold/20 text-gold border border-gold/40 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider">
+                                Empowering Global Diaspora Connections
+                            </span>
+                            <h1 class="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-white">
+                                Unity, Culture &amp; Heritage in Action
+                            </h1>
+                            <p class="text-gray-200 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal">
+                                The African American Diaspora Organization is dedicated to uniting communities globally, advocating for cultural empowerment, and advancing educational and economic initiatives.
+                            </p>
+                            <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+                                <button onclick="switchTab('membership')" class="bg-gold hover:bg-gold-light text-burgundy-dark font-bold px-8 py-4 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 text-base">
+                                    Become a Member
+                                </button>
+                                <button onclick="switchTab('events')" class="bg-transparent hover:bg-white/10 text-white font-bold px-8 py-4 rounded-xl border-2 border-gold/60 transition text-base">
+                                    Explore Events
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Hero Graphic Card -->
+                        <div class="lg:col-span-5">
+                            <div class="bg-burgundy-dark/80 backdrop-blur-md p-6 sm:p-8 rounded-2xl border-2 border-gold/30 shadow-2xl relative">
+                                <div class="absolute -top-3 -right-3 bg-gold text-burgundy text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-md shadow">
+                                    Annual Target
+                                </div>
+                                <h3 class="font-heading text-xl font-bold text-gold mb-2">2026 Diaspora Empowerment Fund</h3>
+                                <p class="text-sm text-gray-300 mb-6">Supporting youth scholarships and cultural preservation exchange programs across Africa and America.</p>
+                                
+                                <div class="space-y-2 mb-6">
+                                    <div class="flex justify-between text-xs font-semibold text-gray-200">
+                                        <span>Raised: $42,500</span>
+                                        <span class="text-gold">Goal: $100,000</span>
+                                    </div>
+                                    <div class="w-full bg-burgundy rounded-full h-3 overflow-hidden border border-gold/30">
+                                        <div class="bg-gold h-full rounded-full w-[42%]"></div>
+                                    </div>
+                                </div>
+
+                                <button onclick="openDonateModal()" class="w-full bg-white hover:bg-gray-100 text-burgundy font-bold py-3.5 rounded-xl shadow transition text-center flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-heart text-red-600"></i> Contribute to the Fund
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Pillars Section -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h2 class="font-heading text-3xl font-bold text-burgundy">Our Core Mission Pillars</h2>
+                    <div class="w-20 h-1 bg-gold mx-auto my-3 rounded-full"></div>
+                    <p class="text-gray-600 text-sm sm:text-base">Connecting the African diaspora through culture, civic engagement, education, and economic development.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition group">
+                        <div class="w-14 h-14 bg-burgundy-50 text-burgundy rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-burgundy group-hover:text-gold transition">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold text-burgundy mb-3">Community Recruitment</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">Uniting individuals and chapters globally to strengthen leadership networks and mutual support.</p>
+                        <button onclick="switchTab('membership')" class="text-burgundy font-bold text-sm hover:text-gold transition flex items-center gap-2">Join Us Today &rarr;</button>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition group">
+                        <div class="w-14 h-14 bg-gold-50 text-gold-dark rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-gold group-hover:text-burgundy transition">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold text-burgundy mb-3">Conferences &amp; Events</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">Hosting world-class summits, guest speaker panels, workshops, and cultural celebrations.</p>
+                        <button onclick="switchTab('events')" class="text-burgundy font-bold text-sm hover:text-gold transition flex items-center gap-2">View Events &rarr;</button>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl shadow-md border border-gray-100 hover:shadow-xl transition group">
+                        <div class="w-14 h-14 bg-burgundy-50 text-burgundy rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-burgundy group-hover:text-gold transition">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold text-burgundy mb-3">Live Streaming Hub</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">Broadcasting keynotes, town halls, and cultural performances live to our worldwide diaspora audience.</p>
+                        <button onclick="switchTab('stream')" class="text-burgundy font-bold text-sm hover:text-gold transition flex items-center gap-2">Watch Stream &rarr;</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 2: MEMBERSHIP RECRUITMENT ================= -->
+        <section id="tab-membership" class="tab-content hidden py-12">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
+                    <div class="bg-burgundy text-white p-8 sm:p-10 relative">
+                        <div class="absolute inset-0 bg-pattern opacity-10"></div>
+                        <span class="bg-gold text-burgundy text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3 inline-block">Join Our Movement</span>
+                        <h2 class="font-heading text-3xl sm:text-4xl font-bold text-gold mb-2">Membership Recruitment Form</h2>
+                        <p class="text-gray-200 text-sm sm:text-base">Become an official member of the African American Diaspora Organization today.</p>
+                    </div>
+
+                    <form id="membership-form" onsubmit="handleMembershipSubmit(event)" class="p-6 sm:p-10 space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">First Name *</label>
+                                <input type="text" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-burgundy focus:outline-none text-sm" placeholder="e.g. Marcus">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Last Name *</label>
+                                <input type="text" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-burgundy focus:outline-none text-sm" placeholder="e.g. Garvey">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Email Address *</label>
+                                <input type="email" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-burgundy focus:outline-none text-sm" placeholder="name@domain.com">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Phone Number</label>
+                                <input type="tel" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-burgundy focus:outline-none text-sm" placeholder="+1 (555) 000-0000">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Select Membership Tier *</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <label class="border-2 border-gray-200 rounded-2xl p-4 cursor-pointer hover:border-burgundy transition flex flex-col justify-between">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <input type="radio" name="membership_tier" value="Student" required class="text-burgundy focus:ring-burgundy">
+                                        <span class="text-xs font-bold text-gray-500 uppercase">Youth / Student</span>
+                                    </div>
+                                    <div class="font-bold text-burgundy text-lg">$25 <span class="text-xs font-normal text-gray-500">/ yr</span></div>
+                                </label>
+                                <label class="border-2 border-burgundy bg-burgundy-50 rounded-2xl p-4 cursor-pointer hover:border-burgundy transition flex flex-col justify-between">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <input type="radio" name="membership_tier" value="General" checked required class="text-burgundy focus:ring-burgundy">
+                                        <span class="text-xs font-bold text-burgundy uppercase">General Member</span>
+                                    </div>
+                                    <div class="font-bold text-burgundy text-lg">$60 <span class="text-xs font-normal text-gray-500">/ yr</span></div>
+                                </label>
+                                <label class="border-2 border-gray-200 rounded-2xl p-4 cursor-pointer hover:border-burgundy transition flex flex-col justify-between">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <input type="radio" name="membership_tier" value="Patron" required class="text-burgundy focus:ring-burgundy">
+                                        <span class="text-xs font-bold text-gold-dark uppercase">Patron Circle</span>
+                                    </div>
+                                    <div class="font-bold text-burgundy text-lg">$250 <span class="text-xs font-normal text-gray-500">/ yr</span></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Areas of Interest / Committee Involvement</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-medium">
+                                <label class="flex items-center gap-2 p-2.5 bg-gray-50 rounded-lg border border-gray-200">
+                                    <input type="checkbox" class="text-burgundy focus:ring-burgundy rounded"> Cultural Arts
+                                </label>
+                                <label class="flex items-center gap-2 p-2.5 bg-gray-50 rounded-lg border border-gray-200">
+                                    <input type="checkbox" class="text-burgundy focus:ring-burgundy rounded"> Education
+                                </label>
+                                <label class="flex items-center gap-2 p-2.5 bg-gray-50 rounded-lg border border-gray-200">
+                                    <input type="checkbox" class="text-burgundy focus:ring-burgundy rounded"> Advocacy
+                                </label>
+                                <label class="flex items-center gap-2 p-2.5 bg-gray-50 rounded-lg border border-gray-200">
+                                    <input type="checkbox" class="text-burgundy focus:ring-burgundy rounded"> Event Host
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-burgundy hover:bg-burgundy-dark text-gold font-bold py-4 rounded-xl shadow-lg transition text-base uppercase tracking-wider">
+                            Submit Membership Application
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 3: EVENTS, TICKETS & SPEAKERS ================= -->
+        <section id="tab-events" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+                <!-- Events Header -->
+                <div class="text-center max-w-3xl mx-auto">
+                    <span class="bg-gold-50 text-burgundy text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3 inline-block">Upcoming Gatherings</span>
+                    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-burgundy">Events &amp; Ticket Sales</h2>
+                    <p class="text-gray-600 text-sm sm:text-base mt-2">Reserve your tickets for our landmark conferences, speaker panels, and workshops.</p>
+                </div>
+
+                <!-- Event Cards List -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Event 1 -->
+                    <div class="bg-white rounded-3xl shadow-lg border border-gray-200 overflow-hidden flex flex-col md:flex-row">
+                        <div class="md:w-5/12 bg-burgundy text-white p-6 flex flex-col justify-between relative">
+                            <div class="absolute inset-0 bg-pattern opacity-15"></div>
+                            <div>
+                                <span class="bg-gold text-burgundy text-xs font-bold uppercase px-3 py-1 rounded-full">Annual Summit</span>
+                                <div class="mt-4">
+                                    <span class="font-heading text-4xl font-extrabold text-gold block">18-20</span>
+                                    <span class="text-xs uppercase tracking-widest text-gray-200 font-semibold block">OCTOBER 2026</span>
+                                </div>
+                            </div>
+                            <div class="mt-6 text-xs text-gray-300 space-y-1">
+                                <p><i class="fa-solid fa-location-dot text-gold mr-2"></i> Grand Convention Center, Atlanta GA</p>
+                                <p><i class="fa-solid fa-globe text-gold mr-2"></i> Hybrid (In-Person &amp; Virtual)</p>
+                            </div>
+                        </div>
+                        <div class="md:w-7/12 p-6 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-heading text-xl font-bold text-burgundy mb-2">Global Diaspora Unity Summit 2026</h3>
+                                <p class="text-gray-600 text-xs sm:text-sm mb-4 leading-relaxed">Three days of impactful keynote addresses, youth empowerment forums, and economic panels.</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 text-gray-700 px-2.5 py-1 rounded-md font-semibold">General Pass: $85</span>
+                                    <span class="text-xs bg-gold/20 text-burgundy px-2.5 py-1 rounded-md font-semibold">VIP Pass: $180</span>
+                                </div>
+                            </div>
+                            <button onclick="openTicketModal('Global Diaspora Unity Summit 2026', 85)" class="w-full bg-burgundy hover:bg-burgundy-dark text-white font-bold py-3 rounded-xl transition text-sm">
+                                Purchase Event Ticket
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Event 2 -->
+                    <div class="bg-white rounded-3xl shadow-lg border border-gray-200 overflow-hidden flex flex-col md:flex-row">
+                        <div class="md:w-5/12 bg-burgundy-dark text-white p-6 flex flex-col justify-between relative">
+                            <div class="absolute inset-0 bg-pattern opacity-15"></div>
+                            <div>
+                                <span class="bg-gold text-burgundy text-xs font-bold uppercase px-3 py-1 rounded-full">Gala &amp; Dinner</span>
+                                <div class="mt-4">
+                                    <span class="font-heading text-4xl font-extrabold text-gold block">05</span>
+                                    <span class="text-xs uppercase tracking-widest text-gray-200 font-semibold block">NOVEMBER 2026</span>
+                                </div>
+                            </div>
+                            <div class="mt-6 text-xs text-gray-300 space-y-1">
+                                <p><i class="fa-solid fa-location-dot text-gold mr-2"></i> Millennium Ballroom, Washington D.C.</p>
+                                <p><i class="fa-solid fa-user-tie text-gold mr-2"></i> Black Tie Attire</p>
+                            </div>
+                        </div>
+                        <div class="md:w-7/12 p-6 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-heading text-xl font-bold text-burgundy mb-2">Heritage Awards &amp; Benefit Gala</h3>
+                                <p class="text-gray-600 text-xs sm:text-sm mb-4 leading-relaxed">Celebrating community pioneers, historic preservation leaders, and educational scholarship recipients.</p>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 text-gray-700 px-2.5 py-1 rounded-md font-semibold">Gala Seat: $120</span>
+                                </div>
+                            </div>
+                            <button onclick="openTicketModal('Heritage Awards & Benefit Gala', 120)" class="w-full bg-burgundy hover:bg-burgundy-dark text-white font-bold py-3 rounded-xl transition text-sm">
+                                Purchase Event Ticket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SPEAKER ROSTER SECTION -->
+                <div class="bg-gray-100 rounded-3xl p-8 sm:p-12 border border-gray-200">
+                    <div class="text-center max-w-2xl mx-auto mb-10">
+                        <h3 class="font-heading text-2xl sm:text-3xl font-bold text-burgundy">Upcoming Guest Speaker Roster</h3>
+                        <p class="text-gray-600 text-xs sm:text-sm mt-1">Distinguished thought leaders and visionaries headlining our 2026 events.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Speaker 1 -->
+                        <div class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-200 hover:shadow-md transition">
+                            <div class="w-24 h-24 rounded-full bg-burgundy text-gold text-3xl font-bold mx-auto mb-4 flex items-center justify-center border-4 border-gold shadow">
+                                DR
+                            </div>
+                            <h4 class="font-bold text-burgundy text-base">Dr. Aliyah N. Carter</h4>
+                            <p class="text-gold-dark text-xs font-semibold mb-2">Historian &amp; Author</p>
+                            <p class="text-gray-500 text-xs">Topic: "Preserving Diaspora Oral Histories in the Digital Age"</p>
+                        </div>
+                        <!-- Speaker 2 -->
+                        <div class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-200 hover:shadow-md transition">
+                            <div class="w-24 h-24 rounded-full bg-burgundy text-gold text-3xl font-bold mx-auto mb-4 flex items-center justify-center border-4 border-gold shadow">
+                                MJ
+                            </div>
+                            <h4 class="font-bold text-burgundy text-base">Marcus Jackson Jr.</h4>
+                            <p class="text-gold-dark text-xs font-semibold mb-2">Global Trade Strategist</p>
+                            <p class="text-gray-500 text-xs">Topic: "Bridging Economic Corridors Between Africa &amp; Diaspora"</p>
+                        </div>
+                        <!-- Speaker 3 -->
+                        <div class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-200 hover:shadow-md transition">
+                            <div class="w-24 h-24 rounded-full bg-burgundy text-gold text-3xl font-bold mx-auto mb-4 flex items-center justify-center border-4 border-gold shadow">
+                                AD
+                            </div>
+                            <h4 class="font-bold text-burgundy text-base">Aminata Diop</h4>
+                            <p class="text-gold-dark text-xs font-semibold mb-2">Cultural Ambassador</p>
+                            <p class="text-gray-500 text-xs">Topic: "Youth Leadership Exchange &amp; Heritage Education"</p>
+                        </div>
+                        <!-- Speaker 4 -->
+                        <div class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-200 hover:shadow-md transition">
+                            <div class="w-24 h-24 rounded-full bg-burgundy text-gold text-3xl font-bold mx-auto mb-4 flex items-center justify-center border-4 border-gold shadow">
+                                HB
+                            </div>
+                            <h4 class="font-bold text-burgundy text-base">Hon. Robert Bennett</h4>
+                            <p class="text-gold-dark text-xs font-semibold mb-2">Civil Rights Advocate</p>
+                            <p class="text-gray-500 text-xs">Topic: "Policy Advocacy &amp; Global Civic Participation"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 4: SHOP MEMORABILIA ================= -->
+        <section id="tab-shop" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+                <div class="text-center max-w-3xl mx-auto">
+                    <span class="bg-gold-50 text-burgundy text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3 inline-block">Official Merchandise</span>
+                    <h2 class="font-heading text-3xl sm:text-4xl font-bold text-burgundy">Memorabilia &amp; Apparel Store</h2>
+                    <p class="text-gray-600 text-sm sm:text-base mt-2">100% of store proceeds directly fund our educational scholarship initiatives.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Product 1 -->
+                    <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden flex flex-col justify-between group">
+                        <div class="h-56 bg-burgundy-50 flex items-center justify-center p-6 relative">
+                            <i class="fa-solid fa-shirt text-6xl text-burgundy group-hover:scale-110 transition transform"></i>
+                            <span class="absolute top-3 right-3 bg-gold text-burgundy text-xs font-bold px-2.5 py-1 rounded-md">Popular</span>
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow justify-between">
+                            <div>
+                                <h3 class="font-bold text-burgundy text-base">Heritage Embroidered Hoodie</h3>
+                                <p class="text-gray-500 text-xs mt-1">Premium heavyweight cotton with gold diaspora emblem.</p>
+                            </div>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="font-bold text-burgundy text-lg">$55.00</span>
+                                <button onclick="addToCart('Heritage Embroidered Hoodie', 55.00)" class="bg-burgundy hover:bg-burgundy-dark text-gold text-xs font-bold px-4 py-2 rounded-lg transition">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden flex flex-col justify-between group">
+                        <div class="h-56 bg-gold-50 flex items-center justify-center p-6 relative">
+                            <i class="fa-solid fa-book-bookmark text-6xl text-gold-dark group-hover:scale-110 transition transform"></i>
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow justify-between">
+                            <div>
+                                <h3 class="font-bold text-burgundy text-base">Diaspora History Anthology</h3>
+                                <p class="text-gray-500 text-xs mt-1">Hardcover collector's edition of diaspora movements.</p>
+                            </div>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="font-bold text-burgundy text-lg">$38.00</span>
+                                <button onclick="addToCart('Diaspora History Anthology', 38.00)" class="bg-burgundy hover:bg-burgundy-dark text-gold text-xs font-bold px-4 py-2 rounded-lg transition">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden flex flex-col justify-between group">
+                        <div class="h-56 bg-burgundy-50 flex items-center justify-center p-6 relative">
+                            <i class="fa-solid fa-mug-hot text-6xl text-burgundy group-hover:scale-110 transition transform"></i>
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow justify-between">
+                            <div>
+                                <h3 class="font-bold text-burgundy text-base">Commemorative Gold Mug</h3>
+                                <p class="text-gray-500 text-xs mt-1">15oz ceramic mug with gold foil organization seal.</p>
+                            </div>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="font-bold text-burgundy text-lg">$22.00</span>
+                                <button onclick="addToCart('Commemorative Gold Mug', 22.00)" class="bg-burgundy hover:bg-burgundy-dark text-gold text-xs font-bold px-4 py-2 rounded-lg transition">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden flex flex-col justify-between group">
+                        <div class="h-56 bg-gold-50 flex items-center justify-center p-6 relative">
+                            <i class="fa-solid fa-award text-6xl text-gold-dark group-hover:scale-110 transition transform"></i>
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow justify-between">
+                            <div>
+                                <h3 class="font-bold text-burgundy text-base">Founder's Lapel Pin Set</h3>
+                                <p class="text-gray-500 text-xs mt-1">Die-cast brass pins featuring 3 historical icons.</p>
+                            </div>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="font-bold text-burgundy text-lg">$18.00</span>
+                                <button onclick="addToCart('Founder\'s Lapel Pin Set', 18.00)" class="bg-burgundy hover:bg-burgundy-dark text-gold text-xs font-bold px-4 py-2 rounded-lg transition">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 5: LIVE STREAMING HUB ================= -->
+        <section id="tab-stream" class="tab-content hidden py-8 sm:py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <!-- Stream Info Header -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-burgundy text-white p-6 rounded-2xl shadow-lg border-2 border-gold/40">
+                    <div>
+                        <span class="inline-flex items-center gap-2 bg-red-600 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2">
+                            <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span> Broadcasting Live
+                        </span>
+                        <h2 class="font-heading text-xl sm:text-2xl font-bold text-gold">2026 Town Hall: Global Youth Empowerment</h2>
+                    </div>
+                    <div class="text-xs text-gray-200 flex items-center gap-4">
+                        <span><i class="fa-solid fa-eye text-gold mr-1"></i> 1,420 Viewers</span>
+                        <span><i class="fa-solid fa-clock text-gold mr-1"></i> Live 00:45:12</span>
+                    </div>
+                </div>
+
+                <!-- Main Video & Chat Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Video Player Container (8 cols) -->
+                    <div class="lg:col-span-8 bg-black rounded-2xl overflow-hidden shadow-2xl relative border-2 border-gray-800 flex flex-col justify-center items-center min-h-[360px] sm:min-h-[480px]">
+                        <!-- Simulated Stream Visual -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30 z-10 flex flex-col justify-between p-6 pointer-events-none">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-black/60 backdrop-blur-md text-gold text-xs px-3 py-1.5 rounded-lg border border-gold/30">
+                                    AAD Official Stream Channel #1
+                                </span>
+                            </div>
+                            <div class="text-white">
+                                <p class="font-bold text-base sm:text-lg">Keynote Address: Dr. Aliyah N. Carter</p>
+                                <p class="text-xs text-gray-300">Live from Atlanta, Georgia</p>
+                            </div>
+                        </div>
+
+                        <!-- Animated Stream Placeholder Graphic -->
+                        <div class="text-center p-8 space-y-4 z-0">
+                            <div class="w-20 h-20 bg-burgundy text-gold rounded-full flex items-center justify-center text-3xl mx-auto shadow-2xl border-4 border-gold animate-bounce">
+                                <i class="fa-solid fa-play ml-1"></i>
+                            </div>
+                            <p class="text-gray-400 text-xs sm:text-sm max-w-sm">
+                                [Simulated HD Video Player]<br>Streaming encrypted signal from AAD Main Stage.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Live Interactive Chat (4 cols) -->
+                    <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg border border-gray-200 flex flex-col h-[480px]">
+                        <!-- Chat Header -->
+                        <div class="p-4 border-b border-gray-200 bg-gray-50 rounded-t-2xl flex items-center justify-between">
+                            <h3 class="font-bold text-burgundy text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-comments text-gold-dark"></i> Audience Live Chat
+                            </h3>
+                            <span class="text-xs text-gray-500 font-semibold">Moderated</span>
+                        </div>
+
+                        <!-- Chat Messages Container -->
+                        <div id="chat-messages" class="flex-grow p-4 overflow-y-auto space-y-3 custom-scrollbar text-xs">
+                            <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                                <span class="font-bold text-burgundy">Marcus G. (London):</span>
+                                <span class="text-gray-700 ml-1">Greetings from the UK chapter! Inspiring keynote.</span>
+                            </div>
+                            <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                                <span class="font-bold text-gold-dark">Sister Keisha:</span>
+                                <span class="text-gray-700 ml-1">Amen! Cultural education must start early.</span>
+                            </div>
+                            <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                                <span class="font-bold text-burgundy">David K. (Accra):</span>
+                                <span class="text-gray-700 ml-1">Excited for the upcoming workshops tomorrow!</span>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input Form -->
+                        <form onsubmit="handleSendChat(event)" class="p-3 border-t border-gray-200 bg-white rounded-b-2xl flex gap-2">
+                            <input id="chat-input" type="text" placeholder="Type a message..." required class="flex-grow px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-burgundy text-xs">
+                            <button type="submit" class="bg-burgundy hover:bg-burgundy-dark text-gold font-bold px-4 py-2 rounded-xl text-xs transition">
+                                Send
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-burgundy-dark text-white border-t-4 border-gold mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-gold flex items-center justify-center text-burgundy font-bold font-heading">A</div>
+                        <span class="font-heading font-bold text-gold text-lg">AAD Org</span>
+                    </div>
+                    <p class="text-gray-300 text-xs leading-relaxed">
+                        The African American Diaspora Organization is a registered 501(c)(3) non-profit dedicated to heritage preservation and economic empowerment.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-heading text-sm font-bold text-gold uppercase tracking-wider mb-3">Quick Navigation</h4>
+                    <ul class="space-y-2 text-xs text-gray-300">
+                        <li><button onclick="switchTab('membership')" class="hover:text-gold">Membership Registration</button></li>
+                        <li><button onclick="switchTab('events')" class="hover:text-gold">Event Ticketing</button></li>
+                        <li><button onclick="switchTab('shop')" class="hover:text-gold">Memorabilia Store</button></li>
+                        <li><button onclick="switchTab('stream')" class="hover:text-gold">Live Stream Channel</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading text-sm font-bold text-gold uppercase tracking-wider mb-3">Support &amp; Contact</h4>
+                    <ul class="space-y-2 text-xs text-gray-300">
+                        <li><i class="fa-solid fa-envelope text-gold mr-2"></i> info@aadiaspora.org</li>
+                        <li><i class="fa-solid fa-phone text-gold mr-2"></i> +1 (800) 555-AAD1</li>
+                        <li><i class="fa-solid fa-location-dot text-gold mr-2"></i> Washington, D.C. HQ</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading text-sm font-bold text-gold uppercase tracking-wider mb-3">Empower Our Work</h4>
+                    <p class="text-xs text-gray-300 mb-3">Tax-deductible contributions drive our global scholarship &amp; relief programs.</p>
+                    <button onclick="openDonateModal()" class="w-full bg-gold text-burgundy-dark font-bold text-xs py-2.5 rounded-lg shadow hover:bg-gold-light transition">
+                        Donate Now
+                    </button>
+                </div>
+            </div>
+
+            <div class="border-t border-burgundy/60 pt-6 text-center text-xs text-gray-400">
+                <p>&copy; 2026 African American Diaspora Organization. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= MODALS ================= -->
+
+    <!-- 1. DONATION MODAL -->
+    <div id="modal-donate" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border-2 border-gold transform transition-all">
+            <div class="bg-burgundy text-white p-6 relative">
+                <button onclick="closeDonateModal()" class="absolute top-4 right-4 text-gray-300 hover:text-gold text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <h3 class="font-heading text-2xl font-bold text-gold">Make a Donation</h3>
+                <p class="text-xs text-gray-200 mt-1">Your contribution directly supports non-profit diaspora programs.</p>
+            </div>
+
+            <form onsubmit="handleDonateSubmit(event)" class="p-6 space-y-5">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-700 mb-2">Select Amount (USD)</label>
+                    <div class="grid grid-cols-4 gap-2 mb-3">
+                        <button type="button" onclick="setDonateAmount(25)" class="donate-amt-btn border border-gray-300 py-2 rounded-xl text-xs font-bold text-burgundy hover:border-burgundy"> $25</button>
+                        <button type="button" onclick="setDonateAmount(50)" class="donate-amt-btn border border-gray-300 py-2 rounded-xl text-xs font-bold text-burgundy hover:border-burgundy"> $50</button>
+                        <button type="button" onclick="setDonateAmount(100)" class="donate-amt-btn border-2 border-burgundy bg-burgundy-50 py-2 rounded-xl text-xs font-bold text-burgundy"> $100</button>
+                        <button type="button" onclick="setDonateAmount(250)" class="donate-amt-btn border border-gray-300 py-2 rounded-xl text-xs font-bold text-burgundy hover:border-burgundy"> $250</button>
+                    </div>
+                    <input id="donate-custom-amount" type="number" min="5" value="100" required class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:ring-2 focus:ring-burgundy focus:outline-none" placeholder="Custom Amount">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-700 mb-2">Payment Details</label>
+                    <input type="text" required placeholder="Cardholder Name" class="w-full mb-2 px-3.5 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:ring-2 focus:ring-burgundy">
+                    <input type="text" required placeholder="Card Number (4242 ...)" class="w-full mb-2 px-3.5 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:ring-2 focus:ring-burgundy">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" required placeholder="MM/YY" class="px-3.5 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:ring-2 focus:ring-burgundy">
+                        <input type="text" required placeholder="CVC" class="px-3.5 py-2 rounded-xl border border-gray-300 text-xs focus:outline-none focus:ring-2 focus:ring-burgundy">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-gold hover:bg-gold-light text-burgundy-dark font-bold py-3.5 rounded-xl shadow-lg transition text-sm uppercase tracking-wider">
+                    Confirm &amp; Complete Donation
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. TICKET PURCHASE MODAL -->
+    <div id="modal-ticket" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border-2 border-gold">
+            <div class="bg-burgundy text-white p-6 relative">
+                <button onclick="closeTicketModal()" class="absolute top-4 right-4 text-gray-300 hover:text-gold text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <h3 id="ticket-modal-title" class="font-heading text-xl font-bold text-gold">Purchase Event Ticket</h3>
+                <p class="text-xs text-gray-200 mt-1">Secure your seat for upcoming sessions.</p>
+            </div>
+
+            <form onsubmit="handleTicketSubmit(event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Attendee Full Name</label>
+                    <input type="text" required class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-xs focus:ring-2 focus:ring-burgundy focus:outline-none" placeholder="Full Name">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Email (For Ticket PDF Delivery)</label>
+                    <input type="email" required class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-xs focus:ring-2 focus:ring-burgundy focus:outline-none" placeholder="name@domain.com">
+                </div>
+                <div class="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-200">
+                    <span class="text-xs font-bold text-gray-700">Ticket Quantity:</span>
+                    <input id="ticket-qty" type="number" min="1" max="10" value="1" onchange="updateTicketTotal()" class="w-16 px-2 py-1 rounded-lg border text-center text-xs font-bold">
+                </div>
+
+                <div class="flex justify-between items-center text-sm font-bold text-burgundy pt-2">
+                    <span>Total Cost:</span>
+                    <span id="ticket-total-display">$85.00</span>
+                </div>
+
+                <button type="submit" class="w-full bg-burgundy hover:bg-burgundy-dark text-gold font-bold py-3.5 rounded-xl shadow-lg transition text-sm">
+                    Complete Ticket Registration
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. SHOPPING CART MODAL -->
+    <div id="modal-cart" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border-2 border-gold">
+            <div class="bg-burgundy text-white p-6 relative flex justify-between items-center">
+                <h3 class="font-heading text-xl font-bold text-gold">Your Memorabilia Cart</h3>
+                <button onclick="closeCartModal()" class="text-gray-300 hover:text-gold text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-4">
+                <div id="cart-items-list" class="max-h-60 overflow-y-auto space-y-3 custom-scrollbar">
+                    <p class="text-xs text-gray-500 text-center py-4">Your cart is currently empty.</p>
+                </div>
+
+                <div class="border-t border-gray-200 pt-4 flex justify-between items-center">
+                    <span class="font-bold text-gray-700 text-sm">Total Amount:</span>
+                    <span id="cart-total" class="font-bold text-burgundy text-lg">$0.00</span>
+                </div>
+
+                <button onclick="handleCartCheckout()" class="w-full bg-gold hover:bg-gold-light text-burgundy-dark font-bold py-3.5 rounded-xl shadow transition text-sm uppercase tracking-wider">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // Global State
+        let activeTab = 'home';
+        let cart = [];
+        let currentTicketPrice = 85;
+
+        // Navigation Tab Switcher
+        function switchTab(tabId) {
+            activeTab = tabId;
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-gold', 'bg-burgundy-dark');
+            });
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('text-gold', 'bg-burgundy-dark');
+            }
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Donation Modal Handlers
+        function openDonateModal() {
+            document.getElementById('modal-donate').classList.remove('hidden');
+        }
+        function closeDonateModal() {
+            document.getElementById('modal-donate').classList.add('hidden');
+        }
+        function setDonateAmount(amt) {
+            document.getElementById('donate-custom-amount').value = amt;
+        }
+        function handleDonateSubmit(e) {
+            e.preventDefault();
+            const amt = document.getElementById('donate-custom-amount').value;
+            alert(`Thank you for your generous tax-deductible donation of $${amt} to the African American Diaspora Organization!`);
+            closeDonateModal();
+        }
+
+        // Ticket Modal Handlers
+        function openTicketModal(eventTitle, price) {
+            currentTicketPrice = price;
+            document.getElementById('ticket-modal-title').innerText = `Ticket: ${eventTitle}`;
+            document.getElementById('ticket-qty').value = 1;
+            updateTicketTotal();
+            document.getElementById('modal-ticket').classList.remove('hidden');
+        }
+        function closeTicketModal() {
+            document.getElementById('modal-ticket').classList.add('hidden');
+        }
+        function updateTicketTotal() {
+            const qty = parseInt(document.getElementById('ticket-qty').value) || 1;
+            document.getElementById('ticket-total-display').innerText = `$${(qty * currentTicketPrice).toFixed(2)}`;
+        }
+        function handleTicketSubmit(e) {
+            e.preventDefault();
+            alert('Registration Successful! Your event ticket PDF and confirmation barcode have been sent to your email address.');
+            closeTicketModal();
+        }
+
+        // Shopping Cart Handlers
+        function openCartModal() {
+            renderCart();
+            document.getElementById('modal-cart').classList.remove('hidden');
+        }
+        function closeCartModal() {
+            document.getElementById('modal-cart').classList.add('hidden');
+        }
+        function addToCart(title, price) {
+            cart.push({ title, price });
+            updateCartBadges();
+            alert(`Added "${title}" to your cart!`);
+        }
+        function updateCartBadges() {
+            const count = cart.length;
+            const badgeDesktop = document.getElementById('cart-badge');
+            const badgeMobile = document.getElementById('cart-badge-mobile');
+
+            if (count > 0) {
+                badgeDesktop.innerText = count;
+                badgeDesktop.classList.remove('hidden');
+                badgeMobile.innerText = count;
+                badgeMobile.classList.remove('hidden');
+            } else {
+                badgeDesktop.classList.add('hidden');
+                badgeMobile.classList.add('hidden');
+            }
+        }
+        function renderCart() {
+            const container = document.getElementById('cart-items-list');
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-500 text-center py-4">Your cart is currently empty.</p>`;
+                document.getElementById('cart-total').innerText = '$0.00';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+            cart.forEach((item, idx) => {
+                total += item.price;
+                html += `
+                    <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-100 text-xs">
+                        <div>
+                            <span class="font-bold text-burgundy block">${item.title}</span>
+                            <span class="text-gray-500">$${item.price.toFixed(2)}</span>
+                        </div>
+                        <button onclick="removeFromCart(${idx})" class="text-red-600 hover:text-red-800 font-bold text-xs">
+                            Remove
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+        }
+        function removeFromCart(idx) {
+            cart.splice(idx, 1);
+            updateCartBadges();
+            renderCart();
+        }
+        function handleCartCheckout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty.');
+                return;
+            }
+            alert('Order placed successfully! Thank you for supporting AAD Org.');
+            cart = [];
+            updateCartBadges();
+            closeCartModal();
+        }
+
+        // Membership Submit
+        function handleMembershipSubmit(e) {
+            e.preventDefault();
+            alert('Welcome to AAD Org! Your membership application has been recorded. Check your email for welcome materials.');
+            switchTab('home');
+        }
+
+        // Live Chat Handler
+        function handleSendChat(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const chatContainer = document.getElementById('chat-messages');
+            const newMsg = document.createElement('div');
+            newMsg.className = 'bg-gold-50 p-2.5 rounded-xl border border-gold-light';
+            newMsg.innerHTML = `<span class="font-bold text-burgundy">You:</span><span class="text-gray-700 ml-1">${msg}</span>`;
+            chatContainer.appendChild(newMsg);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            input.value = '';
+        }
+    </script>
+</body>
+</html>
